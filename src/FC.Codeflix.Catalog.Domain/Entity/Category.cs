@@ -21,7 +21,26 @@ namespace FC.Codeflix.Catalog.Domain.Entity
             Validade();
         }
 
-        public void Validade()
+        public void Update(string name, string? description = null)
+        {
+            Name = name;
+            Description = description ?? Description;
+            Validade();
+        }
+
+        public void Activate()
+        {
+            IsActive = true;
+            Validade();
+        }
+
+        public void Deactivate()
+        {
+            IsActive = false;
+            Validade();
+        }
+
+        private void Validade()
         {
             if (String.IsNullOrWhiteSpace(Name))
                 throw new EntityValidationException($"{nameof(Name)} should not be empty or null");
