@@ -17,12 +17,17 @@ namespace FC.Codeflix.Catalog.Domain.Entity
             Description = description;
             IsActive = isActive;
             CreatedAt = DateTime.Now;
+            
+            Validade();
         }
 
         public void Validade()
         {
             if (String.IsNullOrWhiteSpace(Name))
                 throw new EntityValidationException($"{nameof(Name)} should not be empty or null");
+
+            if (String.IsNullOrWhiteSpace(Description))
+                throw new EntityValidationException($"{nameof(Description)} should not be empty or null");
         }
     }
 }
