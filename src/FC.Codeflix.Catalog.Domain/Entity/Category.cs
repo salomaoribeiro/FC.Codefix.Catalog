@@ -1,10 +1,9 @@
-﻿using FC.Codeflix.Catalog.Domain.Exceptions;
-using FC.Codeflix.Catalog.Domain.SeedWork;
+﻿using FC.Codeflix.Catalog.Domain.SeedWork;
 using FC.Codeflix.Catalog.Domain.Validation;
 
 namespace FC.Codeflix.Catalog.Domain.Entity
 {
-    public class Category : AggregateRoot
+  public class Category : AggregateRoot
     {
         public string Name { get; private set; }
         public string Description { get; private set; }

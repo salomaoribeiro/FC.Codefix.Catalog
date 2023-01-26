@@ -13,8 +13,10 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
         public string GetValidCategoryName()
         {
             var categoryName = "";
+
             while(categoryName.Length < 3)
                 categoryName = Faker.Commerce.Categories(1)[0];
+
             if (categoryName.Length > 255)
                 categoryName = categoryName[..255];
 

@@ -45,7 +45,7 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
             var datetimeBefore = DateTime.Now;
 
             var category = new DomainEntity.Category(validData.Name, validData.Description, IsActive);
-            var datetimeAfter = DateTime.Now;
+            var datetimeAfter = DateTime.Now.AddSeconds(1);
 
             category.Should().NotBeNull();
             category.Name.Should().Be(validData.Name);
@@ -65,7 +65,8 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
         [InlineData("   ")]
         public void InstantiateErrorWhenNameIsEmpty(string? name)
         {
-            Action action = () => new DomainEntity.Category(name!, "Category Description");
+            var validDescription = _categoryTestFixture.GetValidCategoryDescription();
+            Action action = () => new DomainEntity.Category(name!, validDescription);
 
             action.Should().Throw<EntityValidationException>()
                 .WithMessage($"Name should not be null or empty");
@@ -78,7 +79,9 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
         [InlineData("   ")]
         public void InstantiateErrorWhenDescriptionIsNullorEmpty(string description)
         {
-            Action action = () => new DomainEntity.Category("Category Name", description);
+            var validName = _categoryTestFixture.GetValidCategoryName();
+            
+            Action action = () => new DomainEntity.Category(validName, description);
 
             action.Should().Throw<EntityValidationException>()
                 .WithMessage("Description should not be null or empty");
@@ -92,7 +95,9 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
         [InlineData("ca")]
         public void InstantiateErrorWhenNameIsLessThen3Characters(string InvalidName)
         {
-            Action action = () => new DomainEntity.Category(InvalidName, "Category Description");
+            var validCategory = _categoryTestFixture.GetValidCategoryDescription();
+            
+            Action action = () => new DomainEntity.Category(InvalidName, validCategory);
         
             action.Should().Throw<EntityValidationException>().WithMessage("Name should be at least 3 characters long");
         }
@@ -102,7 +107,7 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
         public void InstantiateErrorWhenNameIsGreaterThen255Characters()
         {
             var validCategory = _categoryTestFixture.GetValidCategory();
-            var invalidName = String.Join(null, Enumerable.Range(1, 256).Select(_ => "a").ToArray());
+            var invalidName = _categoryTestFixture.Faker.Lorem.Letter(256);
 
             Action action = () => new DomainEntity.Category(invalidName, validCategory.Description);
 
@@ -114,7 +119,7 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
         public void InstantiateErrorWhenDescriptionIsGreaterThen10_000Characters()
         {
             var validCategory = _categoryTestFixture.GetValidCategory();
-            var invalidDescription = String.Join(null, Enumerable.Range(1, 10_001).Select(_ => "a").ToArray());
+            var invalidDescription = _categoryTestFixture.Faker.Lorem.Letter(10_001);
 
             Action action = () => new DomainEntity.Category(validCategory.Name, invalidDescription);
 
@@ -197,7 +202,9 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
         public void UpdateErrorWhenNameIsLessThen3Characters(string InvalidName)
         {
             var validCategory = _categoryTestFixture.GetValidCategory();
+
             Action action = () => new DomainEntity.Category(InvalidName, validCategory.Description);
+
             action.Should().Throw<EntityValidationException>()
                 .WithMessage("Name should be at least 3 characters long");
         }
@@ -210,6 +217,7 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
             var validCategory = _categoryTestFixture.GetValidCategory();
 
             Action action = () => new DomainEntity.Category(invalidName, validCategory.Description);
+
             action.Should().Throw<EntityValidationException>()
                 .WithMessage("Name should be less or equal 255 caracters long");
         }
