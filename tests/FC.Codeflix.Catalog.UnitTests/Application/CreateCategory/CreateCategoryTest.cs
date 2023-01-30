@@ -2,6 +2,7 @@
 using Moq;
 using FluentAssertions;
 using UsuCases = FC.Codeflix.Catalog.Application.UseCases.CreateCategory;
+using FC.Codeflix.Catalog.Domain.Repository;
 
 namespace FC.Codeflix.Catalog.UnitTests.Application.CreateCategory
 {
@@ -11,7 +12,7 @@ namespace FC.Codeflix.Catalog.UnitTests.Application.CreateCategory
         [Trait("Application", "CreateCategory - Use Cases")]
         public async void CreateCategory()
         {
-            var repositoryMock = new Mock<IcategoryRepository>();
+            var repositoryMock = new Mock<ICategoryRepository>();
             var unitOfWorkMock = new Mock<IUnitOfWork>();
             var useCase = new UseCases.CreateCategory(
                 repositoryMock.Object,
@@ -26,7 +27,7 @@ namespace FC.Codeflix.Catalog.UnitTests.Application.CreateCategory
 
             var output = await useCase.Handle(input, CancellationToken.None);
 
-            repositoryMock.Verify( repository => repository.Create(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
+            repositoryMock.Verify( repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
             
             unitOfWorkMock.Verify( uow => uow.Commit(It.IsAny<CancellationToken>()), Times.Once);
 
