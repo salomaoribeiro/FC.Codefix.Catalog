@@ -27,4 +27,8 @@
     <ProjectReference Include="..\..\src\FC.Codeflix.Catalog.Domain\FC.Codeflix.Catalog.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\NewFolder\" />
+  </ItemGroup>
+
 </Project>

@@ -69,7 +69,7 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
             Action action = () => new DomainEntity.Category(name!, validDescription);
 
             action.Should().Throw<EntityValidationException>()
-                .WithMessage($"Name should not be null or empty");
+                .WithMessage($"Name should not be empty or null");
         }
 
         [Theory(DisplayName = nameof(InstantiateErrorWhenDescriptionIsNullorEmpty))]
@@ -84,7 +84,7 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
             Action action = () => new DomainEntity.Category(validName, description);
 
             action.Should().Throw<EntityValidationException>()
-                .WithMessage("Description should not be null or empty");
+                .WithMessage("Description should not be empty or null");
         }
 
         [Theory(DisplayName = nameof(InstantiateErrorWhenNameIsLessThen3Characters))]
@@ -190,11 +190,11 @@ namespace FC.Codeflix.Catalog.UnitTests.Domain.Entity.Category
             Action action = () => category.Update(name!);
 
             action.Should().Throw<EntityValidationException>()
-                .WithMessage("Name should not be null or empty");
+                .WithMessage("Name should not be empty or null");
         }
 
         [Theory(DisplayName = nameof(UpdateErrorWhenNameIsLessThen3Characters))]
-        [Trait("Domain", "Category - Aggregates")]
+        [Trait("Domain", "Category - Aggregates")] 
         [InlineData("1")]
         [InlineData("12")]
         [InlineData("a")]
